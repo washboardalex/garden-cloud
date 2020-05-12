@@ -19,6 +19,6 @@ const GardenPage : React.FC<IGardenPageProps> = ({ isGardenCreated }) => (
  
 const mapStateToProps = createStructuredSelector<AppState, IGardenPageProps>({
     isGardenCreated: selectIsGardenCreated
-})
+}); 
 
 export default connect(mapStateToProps)(GardenPage);

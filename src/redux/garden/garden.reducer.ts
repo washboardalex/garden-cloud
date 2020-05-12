@@ -1,6 +1,9 @@
 import IGarden from '../../types/models/IGarden';
 import IActionWithPayload from '../../types/utils/IActionWithPayload';
-import { CREATE_GARDEN } from './garden.types';
+import { 
+    CREATE_GARDEN,
+    CREATE_BED
+ } from './garden.types';
 
 const INITIAL_STATE : IGarden = {
     length: null,
@@ -9,7 +12,6 @@ const INITIAL_STATE : IGarden = {
 }
 
 const gardenReducer = (state : IGarden = INITIAL_STATE, action: IActionWithPayload) => {
-    console.log('we are here')
     switch(action.type) {
         case CREATE_GARDEN:
             const { length, width } = action.payload;
@@ -17,6 +19,11 @@ const gardenReducer = (state : IGarden = INITIAL_STATE, action: IActionWithPaylo
                 ...state,
                 length,
                 width
+            })
+        case CREATE_BED:
+            return ({
+                ...state,
+                beds: [ ...state.beds, { ...action.payload }]
             })
         default:
             return state;

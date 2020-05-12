@@ -1,0 +1,17 @@
+#garden-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#garden {
+  border: 4px solid green;
+  overflow: auto;
+  position: relative;
+}
+#buffer-for-click-drag {
+  border: 1px solid black;
+  width: 95%;
+  height: 95%;
+  position: relative;
+}
