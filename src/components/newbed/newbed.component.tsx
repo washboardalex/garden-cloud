@@ -1,5 +1,5 @@
 import React from 'react';
-import Draggable from 'react-draggable'; //Possible optimisation - do your own dragging algorithm
+import Draggable from 'react-draggable';
 
 import './newbed.styles.scss';
 
