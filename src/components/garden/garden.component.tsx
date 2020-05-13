@@ -9,8 +9,8 @@ import { createBed } from '../../redux/garden/garden.actions';
 import IActionWithPayload from '../../types/utils/IActionWithPayload';
 import { fArgReturn } from '../../types/utils/FunctionTypes';
 
-import NewBed from '../newbed/newbed.component';
-import GardenBed from '../gardenbed/gardenbed.component';
+import NewBed from '../new-bed/new-bed.component';
+import GardenBed from '../garden-bed/garden-bed.component';
 
 import './garden.styles.scss';
 

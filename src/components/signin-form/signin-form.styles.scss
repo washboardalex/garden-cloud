@@ -1,0 +1,17 @@
+.sign-in-form {
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.5);
+    color: #f1f1f1;
+    width: 480px;
+    height: 360px;
+    border-radius:5px;
+    box-shadow: 2px 2px 1px black;
+    transform: translateY(20vh);
+    font-family: 'Major Mono Display', monospace;
+}
+
+.fields-wrapper {
+    width: 80%;
+}

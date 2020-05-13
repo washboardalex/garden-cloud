@@ -4,7 +4,7 @@ import { createStructuredSelector } from 'reselect'
 import { selectIsGardenCreated } from '../../redux/garden/garden.selectors';
 import { AppState } from '../../redux/root-reducer';
 
-import GardenCreator from '../../components/gardencreator/gardencreator.component';
+import GardenCreator from '../../components/garden-creator/garden-creator.component';
 import Garden from '../../components/garden/garden.component';
 
 import './gardenpage.styles.scss';
