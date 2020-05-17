@@ -1,16 +1,19 @@
 import React, { ChangeEvent } from 'react';
+import axios from 'axios';
+import { withRouter } from 'react-router-dom';
+import { RouteComponentProps as IReactRouterProps } from 'react-router';
 
+import CustomButton from '../custom-button/custom-button.component';
 import FormInput from '../form-input/form-input.component';
 
 import './signin-form.styles.scss';
-import CustomButton from '../custom-button/custom-button.component';
 
 interface ISignInState {
     email: string,
     password: string,
 }
 
-class SignInForm extends React.Component<{},{}> {
+class SignInForm extends React.Component<IReactRouterProps, ISignInState> {
 
     state : ISignInState = {
         email: '',
@@ -22,6 +25,22 @@ class SignInForm extends React.Component<{},{}> {
         const  { name, value } = target;
         const stateUpdate = { [name]: value } as Pick<ISignInState, keyof ISignInState>;
         this.setState( stateUpdate );
+    }
+
+    handleSignIn = () => {
+        const { email, password } : ISignInState = this.state;
+        if (email !== '' && password !== '') 
+            axios.post('http://localhost:3001/api/signin', {
+                email, 
+                password
+            })
+            .then((response) => {
+                if (response.status === 200) 
+                    this.props.history.push('/home')
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     render() {
@@ -48,7 +67,7 @@ class SignInForm extends React.Component<{},{}> {
 
                     <CustomButton
                         type='button'
-                        onClick={ () => console.log('I am clicked!')} 
+                        onClick={ () => this.handleSignIn()} 
                         inverted = {false}
                     >
                         Sign In    
@@ -61,5 +80,5 @@ class SignInForm extends React.Component<{},{}> {
 
 
 
-export default SignInForm;
+export default withRouter(SignInForm);
         

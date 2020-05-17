@@ -153,32 +153,38 @@ class Garden extends React.Component<GardenProps, ILocalState> {
 
         return (
             <div id="garden-wrapper" >
-                    {isNewBedInCreation 
-                        ? <button id="confirm-placement" onClick={() => this.createBed('.resizable')}>Confirm Placement</button>
-                        : <button id="add-bed" value="inCreation" onClick={() => this.setState({ isNewBedInCreation: !isNewBedInCreation })}>Add Bed</button>
-                    }
-                    
+                {isNewBedInCreation 
+                    ?   <button id="confirm-placement" onClick={() => this.createBed('.resizable')}>Confirm Placement</button>
+                    :   <button 
+                            id="add-bed" 
+                            value="inCreation" 
+                            onClick={() => this.setState({ isNewBedInCreation: !isNewBedInCreation })}
+                        >
+                            Add Bed
+                        </button>
+                }
+                
+                <div 
+                    id="garden" 
+                    style={{
+                        width:`${widthCSSProp}${referenceDimension}`, 
+                        height:`${lengthCSSProp}${referenceDimension}`
+                    }} 
+                >
                     <div 
-                        id="garden" 
+                        id="buffer-for-click-drag" 
                         style={{
-                            width:`${widthCSSProp}${referenceDimension}`, 
-                            height:`${lengthCSSProp}${referenceDimension}`
-                        }} 
-                    >
-                        <div 
-                            id="buffer-for-click-drag" 
-                            style={{
-                                marginLeft:`1${referenceDimension}`, 
-                                marginTop:`1${referenceDimension}`, 
-                                marginRight: `1${referenceDimension}`, 
-                                marginBottom:`1.5${referenceDimension}`
-                            }}
-                        > 
-                            {beds.map((bed, i) => <GardenBed index={i} referenceDimension={referenceDimension} {...bed} />)}
-                            {isNewBedInCreation && <NewBed /> }
-                        </div>
+                            marginLeft:`1${referenceDimension}`, 
+                            marginTop:`1${referenceDimension}`, 
+                            marginRight: `1${referenceDimension}`, 
+                            marginBottom:`1.5${referenceDimension}`
+                        }}
+                    > 
+                        {beds.map((bed, i) => <GardenBed index={i} referenceDimension={referenceDimension} {...bed} />)}
+                        {isNewBedInCreation && <NewBed /> }
                     </div>
                 </div>
+            </div>
         )
     }
 }

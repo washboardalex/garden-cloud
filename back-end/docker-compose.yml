@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+
+  # PostgreSQL
+  postgres:
+    container_name: postgres
+    build: ./postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_URL: postgres://admin:password@localhost:5432/garden-cloud
+      POSTGRES_DB: garden-cloud
+      POSTGRES_HOST: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - /var/lib/postgresql/data
+
+  # Redis
+  redis:
+    container_name: redis
+    image: redis
+    ports:
+      - "6379:6379"
+
+  # Backend
+  garden-cloud-api:
+    container_name: backend
+    build: ./
+    volumes:
+      - ./:/usr/src/garden-cloud-api
+    command: npm start
+    working_dir: /usr/src/garden-cloud-api
+    ports:
+      - "3001:3001"
+    environment:
+      POSTGRES_URI: postgres://admin:password@postgres:5432/garden-cloud
+      REDIS_URI: redis://redis:6379
