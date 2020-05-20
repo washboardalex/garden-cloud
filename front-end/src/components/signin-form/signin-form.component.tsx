@@ -1,21 +1,30 @@
 import React, { ChangeEvent } from 'react';
-import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { RouteComponentProps as IReactRouterProps } from 'react-router';
+import { Dispatch, AnyAction } from 'redux';
+import { connect } from 'react-redux';
+import { signin } from '../../redux/signin/signin.actions';
 
 import CustomButton from '../custom-button/custom-button.component';
 import FormInput from '../form-input/form-input.component';
 
 import './signin-form.styles.scss';
+import { fArgReturn } from '../../types/utils/FunctionTypes';
 
-interface ISignInState {
+interface ILocalState {
     email: string,
     password: string,
 }
 
-class SignInForm extends React.Component<IReactRouterProps, ISignInState> {
+interface IDispatchProps {
+    signin: fArgReturn
+}
 
-    state : ISignInState = {
+type SignInFormProps = IDispatchProps & IReactRouterProps;
+
+class SignInForm extends React.Component<SignInFormProps, ILocalState> {
+
+    state : ILocalState = {
         email: '',
         password: ''
     }
@@ -23,24 +32,15 @@ class SignInForm extends React.Component<IReactRouterProps, ISignInState> {
     handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
         const target = e.target as HTMLInputElement;
         const  { name, value } = target;
-        const stateUpdate = { [name]: value } as Pick<ISignInState, keyof ISignInState>;
+        const stateUpdate = { [name]: value } as Pick<ILocalState, keyof ILocalState>;
         this.setState( stateUpdate );
     }
 
     handleSignIn = () => {
-        const { email, password } : ISignInState = this.state;
-        if (email !== '' && password !== '') 
-            axios.post('http://localhost:3001/api/signin', {
-                email, 
-                password
-            })
-            .then((response) => {
-                if (response.status === 200) 
-                    this.props.history.push('/home')
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        const { email, password } : ILocalState = this.state;
+            
+        email !== '' && password !== '' && this.props.signin(email, password);
+        
     }
 
     render() {
@@ -78,7 +78,10 @@ class SignInForm extends React.Component<IReactRouterProps, ISignInState> {
     }
 } 
 
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
+    signin: (email : string, password : string) => dispatch<any>(signin(email, password))
+});
+  
 
-
-export default withRouter(SignInForm);
+export default withRouter(connect(null, mapDispatchToProps)(SignInForm));
         
