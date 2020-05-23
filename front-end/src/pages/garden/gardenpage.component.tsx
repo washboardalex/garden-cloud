@@ -14,7 +14,9 @@ interface IGardenPageProps {
 }
 
 const GardenPage : React.FC<IGardenPageProps> = ({ isGardenCreated }) => (
-    isGardenCreated ? <Garden /> : <GardenCreator />
+    isGardenCreated 
+        ? <Garden /> 
+        : <GardenCreator />
 );
  
 const mapStateToProps = createStructuredSelector<AppState, IGardenPageProps>({

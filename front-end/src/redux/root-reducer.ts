@@ -4,6 +4,7 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import gardenReducer from './garden/garden.reducer';
+import signInReducer from './user/user.reducer';
 
 const persistConfig = {
     key: 'root',
@@ -12,7 +13,8 @@ const persistConfig = {
 }
 
 const rootReducer = combineReducers({
-    garden: gardenReducer
+    garden: gardenReducer,
+    user: signInReducer
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

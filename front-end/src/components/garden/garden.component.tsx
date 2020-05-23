@@ -113,17 +113,9 @@ class Garden extends React.Component<GardenProps, ILocalState> {
         //changes bed height from pixel to vw/vh terms, also will be resized on window resize
         const [element, parent, garden] = [document.querySelector(div), document.querySelector(div).offsetParent, document.getElementById('garden')!] ;
 
-        console.log(element);
-        console.log(parent);
-        console.log(garden);
-
         let [bedWidth, bedLength]  = [element.offsetWidth, element.offsetHeight]; 
 
-        console.log(bedWidth, bedLength, ', measured in pixels')
-
         let [top, left] =  [element.getBoundingClientRect().top-parent.getBoundingClientRect().top, element.getBoundingClientRect().left-parent.getBoundingClientRect().left];
-
-        console.log(top, left, 'pix')
 
         const [gardenPixWidth, gardenPixLength]  = [garden.offsetWidth, garden.offsetHeight];
         const [gardenRatioWidth, gardenRatioLength] = [parseFloat(this.state.widthCSSProp), parseFloat(this.state.lengthCSSProp)];

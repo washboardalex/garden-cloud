@@ -16,9 +16,9 @@ export const selectGardenDimensions = createSelector(
         const width = garden.width!;
         return { length, width }
     }
-)
+);
 
 export const selectGardenBeds = createSelector(
     [selectGarden],
     garden => garden.beds
-)
+);

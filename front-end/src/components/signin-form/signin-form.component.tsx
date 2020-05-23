@@ -3,13 +3,16 @@ import { withRouter } from 'react-router-dom';
 import { RouteComponentProps as IReactRouterProps } from 'react-router';
 import { Dispatch, AnyAction } from 'redux';
 import { connect } from 'react-redux';
-import { signin } from '../../redux/signin/signin.actions';
+import { signin } from '../../redux/user/user.actions';
+import { fArgReturn } from '../../types/utils/FunctionTypes';
 
 import CustomButton from '../custom-button/custom-button.component';
 import FormInput from '../form-input/form-input.component';
 
 import './signin-form.styles.scss';
-import { fArgReturn } from '../../types/utils/FunctionTypes';
+
+
+
 
 interface ILocalState {
     email: string,
@@ -38,9 +41,10 @@ class SignInForm extends React.Component<SignInFormProps, ILocalState> {
 
     handleSignIn = () => {
         const { email, password } : ILocalState = this.state;
-            
-        email !== '' && password !== '' && this.props.signin(email, password);
-        
+
+        if (email !== '' && password !== '')  
+            this.props.signin(email, password);
+
     }
 
     render() {
@@ -77,6 +81,7 @@ class SignInForm extends React.Component<SignInFormProps, ILocalState> {
         );
     }
 } 
+
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
     signin: (email : string, password : string) => dispatch<any>(signin(email, password))
