@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect'
 import { selectIsGardenCreated } from '../../redux/garden/garden.selectors';
 import { AppState } from '../../redux/root-reducer';
+import axios from 'axios';
 
 import GardenCreator from '../../components/garden-creator/garden-creator.component';
 import Garden from '../../components/garden/garden.component';
@@ -13,11 +14,33 @@ interface IGardenPageProps {
     isGardenCreated: boolean
 }
 
-const GardenPage : React.FC<IGardenPageProps> = ({ isGardenCreated }) => (
-    isGardenCreated 
-        ? <Garden /> 
-        : <GardenCreator />
-);
+class GardenPage extends React.Component<IGardenPageProps> {
+
+    componentDidMount() {
+        console.log(window.sessionStorage.getItem('gardenCloudToken'));
+        axios.get(
+            `http://localhost:3001/api/garden/1`,
+            {headers: {
+                "Access-Control-Allow-Origin" : "*",
+                "Content-type": "Application/json",
+                "Authorization": window.sessionStorage.getItem('gardenCloudToken')
+            }}
+        )
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+
+    render() {
+        return (
+            this.props.isGardenCreated 
+                ? <Garden /> : <GardenCreator />
+        );
+    }
+}
  
 const mapStateToProps = createStructuredSelector<AppState, IGardenPageProps>({
     isGardenCreated: selectIsGardenCreated

@@ -13,9 +13,10 @@ const signInReducer = (state: ICurrentUserState = INITIAL_STATE, action: IAction
                 ...state,
             }
         case SIGN_IN_SUCCESS:
+            window.sessionStorage.setItem('gardenCloudToken', action.payload.token);
             return { 
                 ...state,
-                userData: action.payload
+                userData: action.payload.user
             }
         case SIGN_IN_FAILED:
             return { 
