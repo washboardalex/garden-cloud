@@ -1,24 +1,43 @@
 import { createSelector } from 'reselect';
 import { AppState } from '../root-reducer';
 import IGarden from '../../types/models/IGarden';
+import { IGardenState } from './garden.types';
+import FetchState from '../../types/utils/FetchState';
 
 const selectGarden = (state : AppState) => state.garden;
 
 export const selectIsGardenCreated = createSelector(
     [selectGarden],
-    garden => !!garden.length
+    ( garden : IGardenState ) => !!garden.gardenData
 );
 
-export const selectGardenDimensions = createSelector(
+export const selectGardenData = createSelector(
     [selectGarden],
-    ( garden : IGarden ) => { 
-        const length = garden.length!; //this needs refactoring - should always be able to call it in a way that is predictable
-        const width = garden.width!;
-        return { length, width }
+    ( garden: IGardenState ) => garden.gardenData!
+)
+
+export const selectGardenDimensions = createSelector(
+    [selectGardenData],
+    ( gardenData : IGarden ) => { 
+        return gardenData.dimensions!;
     }
 );
 
-export const selectGardenBeds = createSelector(
+export const selectGardenFetchState = createSelector(
     [selectGarden],
-    garden => garden.beds
+    (garden : IGardenState) => {
+        return garden.fetchState
+    }
+)
+
+export const selectIsGardenFetching = createSelector(
+    [selectGardenFetchState],
+    (fetchState : FetchState) => {
+        return fetchState === 'fetching'
+    }
+)
+
+export const selectGardenBeds = createSelector(
+    [selectGardenData],
+    gardenData => gardenData.beds
 );

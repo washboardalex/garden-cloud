@@ -10,7 +10,7 @@ import { createStructuredSelector } from 'reselect';
 import { selectIsUserSignedIn } from './redux/user/user.selectors';
 import { connect } from 'react-redux';
 
-import GardenPage from './pages/garden/gardenpage.component';
+import GardenPage from './pages/garden/gardenpage.container';
 import SignInPage from './pages/signin/signin-page.component';
 
 import './App.css';

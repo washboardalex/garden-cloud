@@ -8,6 +8,7 @@ import { Dispatch, AnyAction } from 'redux';
 import { createBed } from '../../redux/garden/garden.actions';
 import IActionWithPayload from '../../types/utils/IActionWithPayload';
 import { fArgReturn } from '../../types/utils/FunctionTypes';
+import IGardenDimensions from '../../types/models/IGardenDimensions';
 
 import NewBed from '../new-bed/new-bed.component';
 import GardenBed from '../garden-bed/garden-bed.component';
@@ -25,14 +26,9 @@ interface ILocalState {
     lengthCSSProp: string
 }
 
-interface IGardenDimensions {
-    length: number,
-    width: number
-}
-
 interface IReduxStateProps {
+    beds: Array<IGardenBed>,
     dimensions: IGardenDimensions,
-    beds: Array<IGardenBed>
 }
 
 interface IDispatchProps {
@@ -59,7 +55,16 @@ class Garden extends React.Component<GardenProps, ILocalState> {
         referenceDimension: ''
     }
 
+    componentWillMount() {
+        console.log('this.props!')
+        console.log(this.props)
+
+    }
+
     componentDidMount() {
+        console.log('this.props!')
+        console.log(this.props)
+
         this.renderGarden();
         window.addEventListener('resize', this.resizeGardenToWindow);
     }
@@ -182,8 +187,8 @@ class Garden extends React.Component<GardenProps, ILocalState> {
 }
 
 const mapStateToProps = createStructuredSelector<AppState, IReduxStateProps>({
+    beds: selectGardenBeds,
     dimensions: selectGardenDimensions,
-    beds: selectGardenBeds
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({

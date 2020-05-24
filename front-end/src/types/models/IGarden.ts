@@ -1,7 +1,7 @@
 import IGardenBed from './IGardenBed';
+import IGardenDimensions from './IGardenDimensions';
 
 export default interface IGarden {
-    length: number | null,
-    width: number | null,
+    dimensions?: IGardenDimensions,
     beds: Array<IGardenBed>
 }

@@ -16,16 +16,6 @@ const createSession = (user) => {
   const token = signToken(email);
   return setToken(token, id)
     .then(() => {
-        console.log('SHIIIIIIIIIT M8')
-        console.log(token)
-        redisClient.get(token, function(err, reply) { 
-            if (err || !reply) {
-                console.log('FUUUUUARRRRRKK')
-            } else {
-                console.log('mmmyyawaaaaaaaaattee')
-                console.log(reply)
-            }
-        }) 
         return { success: 'true', userId: id, token, user }
     })
     .catch(console.log);
@@ -43,19 +33,11 @@ const handleSignin = (db, bcrypt, req, res) => {
       if (isValid) {
         return db.select('*').from('users')
           .where('email', '=', email)
-          .then(user => {
-            
-            user = user[0];
-            const { joined, ...userNoJoined } = user;
-            const { garden_length, garden_width, ...userNoGardenBeds } = userNoJoined;
+          .then(userData => {
 
-            user = { 
-              ...userNoGardenBeds, 
-              gardenLength: parseFloat(garden_length),  
-              gardenWidth: parseFloat(garden_width),
-            }
-
+            let { joined, ...user } = userData[0];
             return user;
+
           })
           .catch(err => res.status(400).json('unable to get user'))
       } else {

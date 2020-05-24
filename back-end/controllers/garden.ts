@@ -5,54 +5,50 @@ export const getGarden = (req, res, db) => {
         
     db.select('*').from('gardens').where('user_id', id)
         .then(garden => {
-            console.log('here is the garden')
-            console.log(garden)
+
             if (garden.length) {
-                const gardenData = garden[0];
+                
+                let dimensions = {
+                    length: 0,
+                    width: 0
+                };
+
+                let beds = [];
+                
+                dimensions.length = parseFloat(garden[0].garden_length);
+                dimensions.width = parseFloat(garden[0].garden_width);
+
                 db.select('*').from('garden_beds').where('user_id', id)
-                .then(beds => {
-                    if (beds.length) gardenData.beds = beds;
-                    res.json({gardenData});
-                    //Will need something to see if there is an error
-                    //instead of them actually having no beds
-                    //Probably have default one bed or something
-                })
-                .catch(err => {
-                    res.status(400).json(`error getting garden beds, err : ${err}` );
-                    console.log('Error in getting beds, error is : ');
-                    console.log(err);
-                });
+                    .then(bedsData => {
+
+                        if (bedsData.length) {
+                            beds = bedsData.map(
+                                bed => {
+                                    return {
+                                        id: bed.garden_bed_id,
+                                        length: bed.bed_length,
+                                        width: bed.bed_width,
+                                        positionLeft: bed.left_position,
+                                        positionTop: bed.top_position
+                                    };
+                                }
+                            )
+                        }
+
+                        res.json({dimensions, beds});
+                        
+                    })
+                    .catch(err => {
+                        res.status(400).json(`error getting garden beds, err : ${err}` );
+                        console.log('Error in getting beds, error is : ');
+                        console.log(err);
+                    });
             } else {
                 res.status(400).json('Not found')
             }
         })
         .catch(err => res.status(400).json('error getting user'));    
-        
-        
-        
-    // db.select('*').from('users').where({id})
-    //     .then(user => {
-    //         if (user.length) {
-    //             const usrData = user[0];
-    //             db.select('*').from('garden_beds').where('user_id', id)
-    //             .then(beds => {
-    //                 let gardenBeds = [];
-    //                 if (beds.length) gardenBeds = beds;
-    //                 res.json({usrData, gardenBeds});
-    //                 //Will need something to see if there is an error
-    //                 //instead of them actually having no beds
-    //                 //Probably have default one bed or something
-    //             })
-    //             .catch(err => {
-    //                 res.status(400).json(`error getting garden beds, err : ${err}` );
-    //                 console.log('Error in getting beds, error is : ');
-    //                 console.log(err);
-    //             });
-    //         } else {
-    //             res.status(400).json('Not found')
-    //         }
-    //     })
-    //     .catch(err => res.status(400).json('error getting user'));
+
 }
 
 export const updateGarden = (req, res, db) => {
