@@ -1,6 +1,6 @@
 export default interface IGardenBed {
-    length: number,
-    width: number,
+    lengthMetres: number,
+    widthMetres: number,
     id: number,
     positionTop: number,
     positionLeft: number

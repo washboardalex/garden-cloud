@@ -1,18 +1,29 @@
 .sign-in-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   z-index: 1;
   background: rgba(0, 0, 0, 0.5);
   color: #f1f1f1;
   width: 480px;
   height: 360px;
   border-radius: 5px;
-  box-shadow: 2px 2px 1px black;
-  transform: translateY(20vh);
-  font-family: "Major Mono Display", monospace;
+  -webkit-box-shadow: 2px 2px 1px black;
+          box-shadow: 2px 2px 1px black;
+  -webkit-transform: translateY(20vh);
+          transform: translateY(20vh);
+  font-family: 'Major Mono Display', monospace;
   padding: 20px 0 20px 0;
 }
+
 .fields-wrapper {
   width: 80%;
 }
+/*# sourceMappingURL=signin-form.styles.css.map */

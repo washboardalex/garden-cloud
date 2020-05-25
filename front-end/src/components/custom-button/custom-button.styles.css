@@ -8,10 +8,15 @@
   background-color: rgba(255, 255, 255, 0);
   color: white;
   border: 3px solid white;
-  font-family: "Roboto Mono", sans-serif;
+  font-family: 'Roboto Mono', sans-serif;
   font-weight: bolder;
   cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   outline: none;
 }
+/*# sourceMappingURL=custom-button.styles.css.map */

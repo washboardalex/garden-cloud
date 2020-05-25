@@ -1,6 +1,6 @@
 interface IGardenDimensions {
-    length: number,
-    width: number
+    lengthMetres: number,
+    widthMetres: number
 }
 
 export default IGardenDimensions;

@@ -23,7 +23,8 @@ interface ILocalState {
     referenceDimension: string,
     isNewBedInCreation: boolean,
     widthCSSProp: string,
-    lengthCSSProp: string
+    lengthCSSProp: string,
+    scaleFactor: number 
 }
 
 interface IReduxStateProps {
@@ -42,8 +43,8 @@ Interfaces for function return data
 */
 
 interface IReferenceDimensionObject {
-    length: number,
-    width: number,
+    lengthCSS: number,
+    widthCSS: number,
     referenceDimension: string
 }
 
@@ -52,18 +53,10 @@ class Garden extends React.Component<GardenProps, ILocalState> {
         isNewBedInCreation: false,
         widthCSSProp: '',
         lengthCSSProp: '',
-        referenceDimension: ''
+        referenceDimension: '',
+        scaleFactor: 0
     }
-
-    componentWillMount() {
-        console.log('this.props!')
-        console.log(this.props)
-
-    }
-
     componentDidMount() {
-        console.log('this.props!')
-        console.log(this.props)
 
         this.renderGarden();
         window.addEventListener('resize', this.resizeGardenToWindow);
@@ -81,31 +74,39 @@ class Garden extends React.Component<GardenProps, ILocalState> {
     This function needs to be highly optimised - go back to it if need be until satisfied
     */
     checkReferenceDimension = () : IReferenceDimensionObject => {
-        let { length, width } = this.props.dimensions;
+        let { lengthMetres, widthMetres } = this.props.dimensions;
         const { innerHeight, innerWidth } = window;
         let referenceDimension : string;
+        let lengthCSS : number;
+        let widthCSS : number;
 
-        if ( width > length ) {
-            length/width*0.9*innerWidth > innerHeight ? 
-            [referenceDimension, length, width] = ['vh', 90, width/length*90] : 
-            [referenceDimension, length, width] = ['vw', length/width*90, 90]; 
+        if ( widthMetres > lengthMetres ) {
+            
+            lengthMetres/widthMetres*0.9*innerWidth > innerHeight ? 
+                [referenceDimension, lengthCSS, widthCSS] = ['vh', 90, widthMetres/lengthMetres*90] : 
+                [referenceDimension, lengthCSS, widthCSS] = ['vw', lengthMetres/widthMetres*90, 90]; 
         } else {
-            width/length*0.9*innerHeight > innerWidth ? 
-            [referenceDimension, length, width] = ['vw', length/width*90, 90] : 
-            [referenceDimension, length, width] = ['vh', 90, width/length*90];
+            widthMetres/lengthMetres*0.9*innerHeight > innerWidth ? 
+                [referenceDimension, lengthCSS, widthCSS] = ['vw', lengthMetres/widthMetres*90, 90] : 
+                [referenceDimension, lengthCSS, widthCSS] = ['vh', 90, widthMetres/lengthMetres*90];
         }
 
-        return { length, width, referenceDimension };
+        return { lengthCSS, widthCSS, referenceDimension };
     }
 
     renderGarden = () => {
         //box will be scaled to 90% view width or height. Reference (vw or vh) depends on ensuring no overflow. All done in checkReferenceDimension() function. 
         //I'll leave you to figure out the boolean logic involved, it's quite straightforward
-        let {length, width, referenceDimension} = this.checkReferenceDimension();
+        let {lengthCSS, widthCSS, referenceDimension} = this.checkReferenceDimension();
+        let { lengthMetres } = this.props.dimensions;
+
+        const scaleFactor = lengthCSS / lengthMetres;
+
         this.setState({ 
-            lengthCSSProp: length.toString(), 
-            widthCSSProp: width.toString(), 
-            referenceDimension
+            lengthCSSProp: lengthCSS.toString(), 
+            widthCSSProp: widthCSS.toString(), 
+            referenceDimension,
+            scaleFactor
         });
     }
 
@@ -146,7 +147,7 @@ class Garden extends React.Component<GardenProps, ILocalState> {
 
     render() {
         const { beds } : IReduxStateProps = this.props;
-        const { referenceDimension, isNewBedInCreation, lengthCSSProp, widthCSSProp } : ILocalState = this.state;
+        const { referenceDimension, isNewBedInCreation, lengthCSSProp, widthCSSProp, scaleFactor } : ILocalState = this.state;
 
         return (
             <div id="garden-wrapper" >
@@ -177,7 +178,13 @@ class Garden extends React.Component<GardenProps, ILocalState> {
                             marginBottom:`1.5${referenceDimension}`
                         }}
                     > 
-                        {beds.map((bed, i) => <GardenBed index={i} referenceDimension={referenceDimension} {...bed} />)}
+                        {beds.map((bed, i) => 
+                            <GardenBed 
+                                index={i} 
+                                scaleFactor={scaleFactor} 
+                                referenceDimension={referenceDimension} 
+                                {...bed} 
+                            />)}
                         {isNewBedInCreation && <NewBed /> }
                     </div>
                 </div>

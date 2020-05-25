@@ -9,14 +9,14 @@ export const getGarden = (req, res, db) => {
             if (garden.length) {
                 
                 let dimensions = {
-                    length: 0,
-                    width: 0
+                    lengthMetres: 0,
+                    widthMetres: 0
                 };
 
                 let beds = [];
                 
-                dimensions.length = parseFloat(garden[0].garden_length);
-                dimensions.width = parseFloat(garden[0].garden_width);
+                dimensions.lengthMetres = parseFloat(garden[0].garden_length);
+                dimensions.widthMetres = parseFloat(garden[0].garden_width);
 
                 db.select('*').from('garden_beds').where('user_id', id)
                     .then(bedsData => {
@@ -26,8 +26,8 @@ export const getGarden = (req, res, db) => {
                                 bed => {
                                     return {
                                         id: bed.garden_bed_id,
-                                        length: bed.bed_length,
-                                        width: bed.bed_width,
+                                        lengthMetres: bed.bed_length,
+                                        widthMetres: bed.bed_width,
                                         positionLeft: bed.left_position,
                                         positionTop: bed.top_position
                                     };
@@ -40,8 +40,7 @@ export const getGarden = (req, res, db) => {
                     })
                     .catch(err => {
                         res.status(400).json(`error getting garden beds, err : ${err}` );
-                        console.log('Error in getting beds, error is : ');
-                        console.log(err);
+                        console.error('Error in retrieving garden beds from database: ', err);
                     });
             } else {
                 res.status(400).json('Not found')
