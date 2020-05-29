@@ -1,4 +1,4 @@
-.sign-in-form {
+.authentication-form {
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -6,12 +6,13 @@
     background: rgba(0, 0, 0, 0.5);
     color: #f1f1f1;
     width: 480px;
-    height: 360px;
+    min-height: 360px;
     border-radius:5px;
     box-shadow: 2px 2px 1px black;
     transform: translateY(20vh);
     font-family: 'Major Mono Display', monospace;
     padding: 20px 0 20px 0;
+    padding-bottom: 50px;
 }
 
 .fields-wrapper {
