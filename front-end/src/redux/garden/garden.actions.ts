@@ -19,7 +19,6 @@ export const createGarden = (length: number, width: number) : IActionWithPayload
 export const readGarden = (userId : number) => (dispatch : Dispatch) => {
 
     dispatch({ type: GET_GARDEN_PENDING });
-    console.log('Im doin it')
 
     axios.get(
         `http://localhost:3001/api/garden/${userId.toString()}`,
@@ -31,7 +30,7 @@ export const readGarden = (userId : number) => (dispatch : Dispatch) => {
             : dispatch({ type: GET_GARDEN_FAILED });
     })
     .catch(function (error : AxiosError) {
-        console.log(error);
+        console.error(error);
         dispatch({ type: GET_GARDEN_FAILED })
     });
 
@@ -42,8 +41,3 @@ export const createBed = ( bed : IGardenBed ) : IActionWithPayload => ({
     payload: bed
 });
 
-
-
-
-console.log(window.sessionStorage.getItem('gardenCloudToken'));
-        

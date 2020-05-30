@@ -6,12 +6,7 @@ const requireAuth = (req, res, next) => {
     return res.status(401).send('Unauthorized');
   }
   return redisClient.get(authorization, (err, reply) => {
-    console.log(authorization);
-    console.log('here it is');
     if (err || !reply) {
-        console.log('dang')
-        console.error(err)
-        console.error(reply)
         return res.status(401).send('Unauthorized');
     }
     return next();

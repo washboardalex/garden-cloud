@@ -24,14 +24,14 @@ interface IReduxStateProps {
 const App : React.FC<IReduxStateProps> = ({ isUserSignedIn }) => (
   <div className="App">
     <Switch>
-      <Route 
-        exact path='/' 
-        render={
-          () => isUserSignedIn 
-            ? <Redirect to='/home' /> 
-            : <SignInPage />
-        } 
-      />
+        <Route 
+            exact path='/' 
+            render={
+                () => isUserSignedIn  
+                    ? <Redirect to='/home' /> 
+                    : <SignInPage />
+            } 
+        />
       <Route path='/home' component={GardenPage} />
     </Switch>
   </div>

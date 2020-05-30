@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { RouteComponentProps as IReactRouterProps } from 'react-router';
 import { Dispatch, AnyAction } from 'redux';
 import { connect } from 'react-redux';
-import { signin } from '../../redux/user/user.actions';
+import { signin, register } from '../../redux/user/user.actions';
 import { fArgReturn } from '../../types/utils/FunctionTypes';
 
 import CustomButton from '../custom-button/custom-button.component';
@@ -11,7 +11,6 @@ import FormInput from '../form-input/form-input.component';
 import CustomToggle from '../custom-toggle/custom-toggle.component';
 
 import './signin-form.styles.scss';
-import { findAllInRenderedTree } from 'react-dom/test-utils';
 
 
 interface ILocalState {
@@ -23,7 +22,8 @@ interface ILocalState {
 }
 
 interface IDispatchProps {
-    signin: fArgReturn
+    signin: fArgReturn,
+    register: fArgReturn
 }
 
 type SignInFormProps = IDispatchProps & IReactRouterProps;
@@ -57,8 +57,8 @@ class SignInForm extends React.Component<SignInFormProps, ILocalState> {
 
         if (email.length && password.length && name.length && confirmPassword.length)
             password === confirmPassword
-                ? alert('you did it!')
-                : alert('nah you suck!');
+                ? this.props.register(email, password, name)
+                : alert('passwords do not match - please try again');
     }
 
     toggleNewUser = () => this.setState({ 
@@ -134,7 +134,8 @@ class SignInForm extends React.Component<SignInFormProps, ILocalState> {
 
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
-    signin: (email : string, password : string) => dispatch<any>(signin(email, password))
+    signin: (email : string, password : string) => dispatch<any>(signin(email, password)),
+    register: (email : string, password: string, name: string) => dispatch<any>(register(email, password, name))
 });
   
 

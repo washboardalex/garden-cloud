@@ -7,6 +7,7 @@ import morgan from 'morgan';
 
 import { signinAuthentication } from './controllers/signin';
 import requireAuth from './controllers/authorization';
+import handleRegister from './controllers/register'
 import {getGarden, updateGarden} from './controllers/garden';
 
 //Database Setup
@@ -33,7 +34,7 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 app.post('/api/signin', signinAuthentication(db, bcrypt));
-//   app.post('api/register', (req, res) => { register.handleRegister(req, res, db, bcrypt) })
+app.post('/api/register', (req, res) => { handleRegister(req, res, db, bcrypt) })
 app.get('/api/garden/:id', requireAuth, (req, res) => { getGarden(req, res, db)});
 app.post('/api/garden/:id', requireAuth, (req, res) => { updateGarden(req, res, db) })
 

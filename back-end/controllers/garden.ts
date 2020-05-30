@@ -1,7 +1,5 @@
 export const getGarden = (req, res, db) => {
-    // const { id } = req.params;  
-    const id = 1;
-    console.log('here we go!')
+    const { id } = req.params;  
         
     db.select('*').from('gardens').where('user_id', id)
         .then(garden => {
@@ -55,9 +53,6 @@ export const updateGarden = (req, res, db) => {
     const { id } = req.params;
 
     if (id && data) {
-        console.log('data is : ')
-        console.log(data);
-        console.log('we got the information here');
         const userId = data.userId
         const { id, bedWidth, bedLength, top, left } = data.bed;
 
@@ -71,12 +66,10 @@ export const updateGarden = (req, res, db) => {
         })
         .returning('*')
         .then(item => {
-        console.log('we are going to response yall!')
         res.json(item)
         })
         .catch(err => res.status(400).json({dbError: 'db error'}))
     } else {
-        console.log('yall fucked up');
         res.status(400).json('noooo it didnt work');
     }
 }

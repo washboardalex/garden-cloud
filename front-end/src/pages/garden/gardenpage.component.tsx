@@ -32,13 +32,9 @@ class GardenPage extends React.Component<GardenPageProps> {
     componentDidMount() {
         const {isGardenCreated, fetchState, userId, readGarden} = this.props; 
 
-        console.log(isGardenCreated, fetchState, userId);
-
-        if (!isGardenCreated && fetchState === 'notFetched') {
-            console.log('here we are')
+        if (!isGardenCreated && fetchState === 'notFetched') 
             readGarden(userId)
-        }
-            
+        
     }
 
     render() {

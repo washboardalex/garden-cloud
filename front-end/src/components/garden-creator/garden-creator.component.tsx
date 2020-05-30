@@ -27,9 +27,8 @@ class GardenCreator extends React.Component<IDispatchProps,ILocalState> {
         const { name, value } = target;
         const valNum = parseFloat(value);
 
-        const stateUpdate = { [name]: valNum } as Pick<ILocalState, keyof ILocalState>
-        console.log(stateUpdate)
-        this.setState(stateUpdate)
+        const stateUpdate = { [name]: valNum } as Pick<ILocalState, keyof ILocalState>;
+        this.setState(stateUpdate);
     }
 
     validateAndDispatch = () => {

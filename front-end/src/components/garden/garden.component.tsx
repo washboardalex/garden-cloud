@@ -136,7 +136,6 @@ class Garden extends React.Component<GardenProps, ILocalState> {
             positionTop: top, 
             positionLeft: left
         };
-        console.log('newbed after', newBed)
 
         this.setState({
             isNewBedInCreation: !this.state.isNewBedInCreation, 

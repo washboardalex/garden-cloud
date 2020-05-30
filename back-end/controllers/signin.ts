@@ -11,12 +11,12 @@ const signToken = (username) => {
 
 const setToken = (key, value) => Promise.resolve(redisClient.set(key, value));
 
-const createSession = (user) => {
+export const createSession = (user) => {
   const { email, id } = user;
   const token = signToken(email);
   return setToken(token, id)
     .then(() => {
-        return { success: 'true', userId: id, token, user }
+        return { success: 'true', token, user }
     })
     .catch(console.log);
 };
